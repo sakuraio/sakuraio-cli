@@ -43,6 +43,10 @@ var (
 	addModulePW      = addModuleCmd.Arg("password", "Register Password").Required().String()
 	addModuleProject = addModuleCmd.Arg("project-id", "Project ID").Required().Int()
 	addModuleName    = addModuleCmd.Arg("name", "Module name").String()
+
+	// service
+	servicesCmd     = app.Command("service", "Sservice management")
+	listServicesCmd = servicesCmd.Command("list", "List of services").Alias("ls")
 )
 
 func init() {
@@ -69,11 +73,13 @@ func main() {
 	case deleteProjectCmd.FullCommand():
 		commands.DeleteProject(*deleteProjectForce, *deleteProjectID)
 
-	case listModulesCmd.FullCommand():
+	case listModulesCmd.FullCommand(): // Module Command
 		commands.ListModulesCommand()
 	case showModulesCmd.FullCommand():
 		commands.ShowModulesCommand(*showModuleIDs)
 	case addModuleCmd.FullCommand():
 		commands.AddModuleCommand(*addModuleID, *addModulePW, *addModuleProject, *addModuleName)
+	case listServicesCmd.FullCommand():
+		commands.ListServicesCommand()
 	}
 }
