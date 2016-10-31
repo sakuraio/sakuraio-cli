@@ -104,7 +104,7 @@ func ListServiceFilterProjectCommand(project string) {
 
 func printService(services []Service) {
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
-	fmt.Fprintln(w, "ID\tProject\tType\tToken\tName")
+	fmt.Fprintln(w, "ID\tProject\tType\tToken\tServiceName")
 	for _, v := range services {
 		fmt.Fprintf(w, "%d\t%d\t%s\t%s\t%s\n", v.ID, v.Project, v.Type, v.Token, v.Name)
 	}

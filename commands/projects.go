@@ -27,11 +27,9 @@ func ListProjectsCommand() {
 		os.Exit(1)
 	}
 	printProjects(projects)
-
 }
 
 func ShowProjectsCommand(projectIDs []string) {
-	var projects []Project
 	for _, id := range projectIDs {
 		var project Project
 		body, err := lib.HTTPGet("v1/projects/" + id + "/")
@@ -40,9 +38,13 @@ func ShowProjectsCommand(projectIDs []string) {
 		err = json.Unmarshal([]byte(body), &project)
 		checkError("JSON format error", err, body)
 
-		projects = append(projects, project)
+		printProjects([]Project{project})
+		fmt.Print("\n")
+		ListServiceFilterProjectCommand(id)
+		fmt.Print("\n")
+		ListModulesFilterProjectCommand(id)
 	}
-	printProjects(projects)
+
 }
 
 func AddProjectCommand(projectName string) {
@@ -90,7 +92,7 @@ func DeleteProject(forceRemove bool, deleteProjectID string) {
 
 func printProjects(projects []Project) {
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
-	fmt.Fprintln(w, "ID\tName")
+	fmt.Fprintln(w, "ID\tProjectName")
 	for _, v := range projects {
 		fmt.Fprintf(w, "%d\t%s\n", v.ID, v.Name)
 	}

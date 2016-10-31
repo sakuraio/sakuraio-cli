@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 	"text/tabwriter"
 
 	"github.com/Sirupsen/logrus"
@@ -20,7 +21,7 @@ func checkError(message string, err error, info string) {
 	}
 }
 
-func ListModulesCommand() {
+func fetchModules() []Module {
 	var modules []Module
 	body, err := lib.HTTPGet("v1/modules/")
 	checkError("HTTP ERROR", err, body)
@@ -28,7 +29,22 @@ func ListModulesCommand() {
 	err = json.Unmarshal([]byte(body), &modules)
 	checkError("JSON format error", err, body)
 
-	printModules(modules)
+	return modules
+}
+
+func ListModulesCommand() {
+	printModules(fetchModules())
+}
+
+func ListModulesFilterProjectCommand(project string) {
+	modules := fetchModules()
+	var inProject = []Module{}
+	for _, v := range modules {
+		if strconv.Itoa(v.Project) == project {
+			inProject = append(inProject, v)
+		}
+	}
+	printModules(inProject)
 }
 
 func ShowModulesCommand(moduleIds []string) {
@@ -68,7 +84,7 @@ func AddModuleCommand(id string, password string, projetId int, name string) {
 
 func printModules(modules []Module) {
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
-	fmt.Fprintln(w, "ID\tProject\tOnline\tName")
+	fmt.Fprintln(w, "ID\tProject\tOnline\tModuleName")
 	for _, v := range modules {
 		fmt.Fprintf(w, "%s\t%d\t%t\t%s\n", v.ID, v.Project, v.IsOnline, v.Name)
 	}
