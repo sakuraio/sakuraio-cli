@@ -1,10 +1,12 @@
 package commands
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"text/tabwriter"
 
 	"../lib"
@@ -13,17 +15,10 @@ import (
 func fetchServices() []Service {
 	var services []Service
 	body, err := lib.HTTPGet("v1/services/")
-	if err != nil {
-		fmt.Println("[ERROR]", err)
-		os.Exit(1)
-	}
+	checkError("[ERROR]", err, "")
 	err = json.Unmarshal([]byte(body), &services)
 
-	if err != nil {
-		fmt.Println("[JSON format error] ", err)
-		fmt.Println(body)
-		os.Exit(1)
-	}
+	checkError("[JSON format error]", err, body)
 	return services
 }
 
@@ -44,63 +39,52 @@ func ListServiceFilterProjectCommand(project string) {
 	printService(inProject)
 }
 
-// func ShowServiceCommand(projectIDs []string) {
-// 	var projects []Project
-// 	for _, id := range projectIDs {
-// 		var project Project
-// 		body, err := lib.HTTPGet("v1/projects/" + id + "/")
-// 		checkError("HTTP ERROR", err, body)
+func ShowServicesCommand(projectIDs []string) {
+	var services = []Service{}
+	for _, id := range projectIDs {
+		var service Service
+		body, err := lib.HTTPGet("v1/services/" + id + "/")
+		checkError("HTTP ERROR", err, body)
 
-// 		err = json.Unmarshal([]byte(body), &project)
-// 		checkError("JSON format error", err, body)
+		err = json.Unmarshal([]byte(body), &service)
+		checkError("JSON format error", err, body)
 
-// 		projects = append(projects, project)
-// 	}
-// 	printProjects(projects)
-// }
+		services = append(services, service)
+	}
+	printService(services)
+}
 
-// func AddServiceCommand(projectName string) {
-// 	project := Project{
-// 		ID:   0,
-// 		Name: projectName,
-// 	}
-// 	reqJSON, _ := json.Marshal(project)
+func DeleteServiceCommand(forceRemove bool, deleteServicdID string) {
+	if forceRemove == false {
+		ShowServicesCommand([]string{deleteServicdID})
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("Remove? [yN]")
+		str, _ := reader.ReadString('\n')
+		lower := strings.ToLower(str)
+		if strings.HasPrefix(lower, "y") == false {
+			fmt.Println("Abort...")
+			os.Exit(1)
+		}
+	}
+	res, err := lib.HTTPDelete("v1/services/" + deleteServicdID + "/")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	fmt.Println(res)
+	fmt.Println("Success")
+}
 
-// 	res, err := lib.HTTPPost("v1/projects/", string(reqJSON))
-// 	if err != nil {
-// 		fmt.Println("[ERROR]", err)
-// 		os.Exit(1)
-// 	}
+func AddService(request []byte) {
+	var service = Service{}
+	body, err := lib.HTTPPost("v1/services/", string(request))
+	checkError("HTTP ERROR", err, body)
 
-// 	err = json.Unmarshal([]byte(res), &project)
-// 	if err != nil {
-// 		fmt.Println("[JSON format error]", err)
-// 		os.Exit(1)
-// 	}
+	err = json.Unmarshal([]byte(body), &service)
+	checkError("JSON format error", err, body)
 
-// 	printProjects([]Project{project})
-// }
-
-// func DeleteService(forceRemove bool, deleteProjectID string) {
-// 	if forceRemove == false {
-// 		ShowProjectsCommand([]string{deleteProjectID})
-// 		reader := bufio.NewReader(os.Stdin)
-// 		fmt.Print("Remove? [yN]")
-// 		str, _ := reader.ReadString('\n')
-// 		lower := strings.ToLower(str)
-// 		if strings.HasPrefix(lower, "y") == false {
-// 			fmt.Println("Abort...")
-// 			os.Exit(1)
-// 		}
-// 	}
-// 	res, err := lib.HTTPDelete("v1/projects/" + deleteProjectID + "/")
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		os.Exit(1)
-// 	}
-// 	fmt.Println(res)
-// 	fmt.Println("Success")
-// }
+	printService([]Service{service})
+}
 
 func printService(services []Service) {
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
