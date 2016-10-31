@@ -1,11 +1,9 @@
 package commands
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
 	"text/tabwriter"
 
 	"../lib"
@@ -72,11 +70,7 @@ func AddProjectCommand(projectName string) {
 func DeleteProject(forceRemove bool, deleteProjectID string) {
 	if forceRemove == false {
 		ShowProjectsCommand([]string{deleteProjectID})
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Remove? [yN]")
-		str, _ := reader.ReadString('\n')
-		lower := strings.ToLower(str)
-		if strings.HasPrefix(lower, "y") == false {
+		if lib.YesOrNo("Remove?") == false {
 			fmt.Println("Abort...")
 			os.Exit(1)
 		}

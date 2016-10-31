@@ -1,12 +1,10 @@
 package commands
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 	"text/tabwriter"
 
 	"../lib"
@@ -57,11 +55,7 @@ func ShowServicesCommand(projectIDs []string) {
 func DeleteServiceCommand(forceRemove bool, deleteServicdID string) {
 	if forceRemove == false {
 		ShowServicesCommand([]string{deleteServicdID})
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Remove? [yN]")
-		str, _ := reader.ReadString('\n')
-		lower := strings.ToLower(str)
-		if strings.HasPrefix(lower, "y") == false {
+		if lib.YesOrNo("Remove?") == false {
 			fmt.Println("Abort...")
 			os.Exit(1)
 		}
