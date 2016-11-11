@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"text/tabwriter"
+
+	"github.com/Sirupsen/logrus"
 
 	"../lib"
 )
@@ -67,6 +70,24 @@ func DeleteServiceCommand(forceRemove bool, deleteServicdID string) {
 	}
 	fmt.Println(res)
 	fmt.Println("Success")
+}
+
+func AddServiceCommand(serviceType string, projectID int, options []string) {
+	regist := map[string]interface{}{}
+	regist["type"] = serviceType
+	regist["project"] = projectID
+
+	for _, option := range options {
+		if strings.Count(option, "=") != 1 {
+			logrus.Fatal("Option format error. example: 'key1=val1 key2=val2'")
+		}
+
+		keyValue := strings.Split(option, "=")
+		regist[keyValue[0]] = keyValue[1]
+	}
+
+	json, _ := json.Marshal(regist)
+	AddService(json)
 }
 
 func AddService(request []byte) {

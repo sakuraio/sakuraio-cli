@@ -9,6 +9,7 @@ import (
 
 	"./commands"
 	"./commands/service"
+	"./lib"
 )
 
 var (
@@ -53,14 +54,10 @@ var (
 	deleteServiceCmd   = servicesCmd.Command("remove", "Remove Project").Alias("delete").Alias("rm")
 	deleteServiceForce = deleteServiceCmd.Flag("force", "Force remove").Short('f').Bool()
 	deleteServiceID    = deleteServiceCmd.Arg("ID", "Remove service ID").Required().String()
-
-	// outgoing webhook
-	outgoingWebhookCmd        = servicesCmd.Command("outgoingwebhook", "Service Outgoing Webhook")
-	addOutgoingWebhookCmd     = outgoingWebhookCmd.Command("add", "Add service")
-	addOutgoingWebhookProject = addOutgoingWebhookCmd.Arg("project", "Project ID").Required().Int()
-	addOutgoingWebhookName    = addOutgoingWebhookCmd.Arg("name", "Service Name").Required().String()
-	addOutgoingWebhookURL     = addOutgoingWebhookCmd.Arg("url", "Dest URL").Required().String()
-	addOutgoingWebhookSecret  = addOutgoingWebhookCmd.Arg("secret", "secret").Required().String()
+	addServiceCmd      = servicesCmd.Command("add", "Add Service")
+	addServiceType     = addServiceCmd.Arg("type", "Service type").Required().String()
+	addServiceProject  = addServiceCmd.Arg("project id", "Project ID").Required().Int()
+	addServiceOptions  = addServiceCmd.Arg("option", "Service option").Strings()
 )
 
 func init() {
@@ -76,7 +73,7 @@ func main() {
 		commands.AuthConfigCommand(*authConfigToken, *authConfigSecret)
 
 	case dataStoreCmd.FullCommand(): // Service Data Store Command
-		commands.DataStoreCommand(*dataStoreSize)
+		service.DataStoreCommand(*dataStoreSize)
 
 	case listProjectsCmd.FullCommand(): // Project Command
 		commands.ListProjectsCommand()
@@ -100,9 +97,8 @@ func main() {
 		commands.ShowServicesCommand(*showServiceIDs)
 	case deleteServiceCmd.FullCommand():
 		commands.DeleteServiceCommand(*deleteServiceForce, *deleteServiceID)
-
-	case addOutgoingWebhookCmd.FullCommand(): // Outgoin Webhook
-		service.OutgoingWebhookAddCommand(*addOutgoingWebhookProject, *addOutgoingWebhookName, *addOutgoingWebhookURL, *addOutgoingWebhookSecret)
+	case addServiceCmd.FullCommand():
+		commands.AddServiceCommand(*addServiceType, *addServiceProject, *addServiceOptions)
 
 	}
 }
