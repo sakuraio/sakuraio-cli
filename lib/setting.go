@@ -28,6 +28,17 @@ func GetSetting() Settings {
 	if setting.BaseURL == "" {
 		setting.BaseURL = "https://api-dev.sakura.io/"
 	}
+
+	if OverrideSettings.APIToken != "" {
+		setting.APIToken = OverrideSettings.APIToken
+	}
+	if OverrideSettings.APISecret != "" {
+		setting.APISecret = OverrideSettings.APISecret
+	}
+	if OverrideSettings.BaseURL != "" {
+		setting.BaseURL = OverrideSettings.BaseURL
+	}
+
 	return setting
 }
 
@@ -56,4 +67,10 @@ type Settings struct {
 	APIToken  string
 	APISecret string
 	BaseURL   string
+}
+
+var OverrideSettings Settings = Settings{
+	APIToken:  "",
+	APISecret: "",
+	BaseURL:   "https://api-dev.sakura.io/",
 }

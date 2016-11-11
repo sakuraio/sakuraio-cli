@@ -15,6 +15,9 @@ import (
 var (
 	app = kingpin.New("sakuraio", "sakuraio client command")
 
+	appToken  = app.Flag("token", "API Token").String()
+	appSecret = app.Flag("secret", "API Secret").String()
+
 	/////// auth
 	authCmd          = app.Command("auth", "Authentication")
 	authConfigToken  = authCmd.Arg("token", "API Token").String()
@@ -68,7 +71,12 @@ func init() {
 func main() {
 
 	app.UsageTemplate(kingpin.CompactUsageTemplate)
-	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
+
+	parseResult := kingpin.MustParse(app.Parse(os.Args[1:]))
+	lib.OverrideSettings.APIToken = *appToken
+	lib.OverrideSettings.APISecret = *appSecret
+
+	switch parseResult {
 	case authCmd.FullCommand(): // Auth Command
 		commands.AuthConfigCommand(*authConfigToken, *authConfigSecret)
 
