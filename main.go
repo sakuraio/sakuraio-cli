@@ -15,8 +15,8 @@ import (
 var (
 	app = kingpin.New("sakuraio", "sakuraio client command")
 
-	appToken  = app.Flag("token", "API Token").String()
-	appSecret = app.Flag("secret", "API Secret").String()
+	appToken  = app.Flag("api-token", "API Token").String()
+	appSecret = app.Flag("api-secret", "API Secret").String()
 
 	/////// auth
 	authCmd          = app.Command("auth", "Authentication")
@@ -57,11 +57,24 @@ var (
 	addServiceType     = addServiceCmd.Arg("type", "Service type").Required().String()
 	addServiceProject  = addServiceCmd.Arg("project id", "Project ID").Required().Int()
 	addServiceOptions  = addServiceCmd.Arg("option", "Service option").Strings()
-
-	/////// data store
-	dataStoreCmd  = app.Command("datastore", "Data Store Service")
-	dataStoreSize = servicesCmd.Flag("size", "Fetch Size").Short('s').Default("100").Int()
 )
+
+/////// data store
+var (
+	dataStoreCmd    = servicesCmd.Command("datastore", "Data Store Service")
+	dataStoreGetCmd = dataStoreCmd.Command("get", "Get data")
+)
+var dataStoreOption = service.DataStoreOptions{
+	Size:    dataStoreGetCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
+	Unit:    dataStoreGetCmd.Flag("unit", "Unit channel/message").String(),
+	Token:   dataStoreGetCmd.Flag("token", "Service Token").String(),
+	Cursor:  dataStoreGetCmd.Flag("cursor", "Cursor").String(),
+	After:   dataStoreGetCmd.Flag("after", "Datetime range from").String(),
+	Befor:   dataStoreGetCmd.Flag("befor", "Datetime range to").String(),
+	Channel: dataStoreGetCmd.Flag("channel", "Channel").String(),
+}
+
+/////// END Flags
 
 func init() {
 	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})
@@ -105,7 +118,7 @@ func main() {
 	case addServiceCmd.FullCommand():
 		commands.AddServiceCommand(*addServiceType, *addServiceProject, *addServiceOptions)
 
-	case dataStoreCmd.FullCommand(): // Service Data Store Command
-		service.DataStoreCommand(*dataStoreSize)
+	case dataStoreGetCmd.FullCommand(): // Service Data Store Command
+		service.DataStoreGetCommand(dataStoreOption)
 	}
 }
