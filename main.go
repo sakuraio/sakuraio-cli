@@ -23,10 +23,6 @@ var (
 	authConfigToken  = authCmd.Arg("token", "API Token").String()
 	authConfigSecret = authCmd.Arg("secret", "API Secret").String()
 
-	/////// data store
-	dataStoreCmd  = app.Command("datastore", "Data Store Service")
-	dataStoreSize = dataStoreCmd.Flag("size", "Fetch Size").Short('s').Default("100").Int()
-
 	/////// project
 	projectsCmd        = app.Command("project", "Project management")
 	listProjectsCmd    = projectsCmd.Command("list", "List of projects").Alias("ls")
@@ -61,6 +57,10 @@ var (
 	addServiceType     = addServiceCmd.Arg("type", "Service type").Required().String()
 	addServiceProject  = addServiceCmd.Arg("project id", "Project ID").Required().Int()
 	addServiceOptions  = addServiceCmd.Arg("option", "Service option").Strings()
+
+	/////// data store
+	dataStoreCmd  = app.Command("datastore", "Data Store Service")
+	dataStoreSize = servicesCmd.Flag("size", "Fetch Size").Short('s').Default("100").Int()
 )
 
 func init() {
@@ -79,9 +79,6 @@ func main() {
 	switch parseResult {
 	case authCmd.FullCommand(): // Auth Command
 		commands.AuthConfigCommand(*authConfigToken, *authConfigSecret)
-
-	case dataStoreCmd.FullCommand(): // Service Data Store Command
-		service.DataStoreCommand(*dataStoreSize)
 
 	case listProjectsCmd.FullCommand(): // Project Command
 		commands.ListProjectsCommand()
@@ -108,5 +105,7 @@ func main() {
 	case addServiceCmd.FullCommand():
 		commands.AddServiceCommand(*addServiceType, *addServiceProject, *addServiceOptions)
 
+	case dataStoreCmd.FullCommand(): // Service Data Store Command
+		service.DataStoreCommand(*dataStoreSize)
 	}
 }
