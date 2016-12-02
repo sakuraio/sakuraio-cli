@@ -110,6 +110,18 @@ func printService(services []Service) {
 	w.Flush()
 }
 
+func GetServiceFromProject(projectID string, serviceType string) []Service {
+	var services []Service
+
+	body, err := lib.HTTPGet("v1/services/?type=" + serviceType + "&project=" + projectID)
+	checkError("HTTP Error", err, body)
+
+	err = json.Unmarshal([]byte(body), &services)
+	checkError("JSON format error", err, body)
+
+	return services
+}
+
 type Service struct {
 	ID      int    `json:"id"`
 	Name    string `json:"name"`

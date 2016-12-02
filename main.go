@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/Sirupsen/logrus"
@@ -61,17 +62,20 @@ var (
 
 /////// data store
 var (
-	dataStoreCmd    = servicesCmd.Command("datastore", "Data Store Service")
-	dataStoreGetCmd = dataStoreCmd.Command("get", "Get data")
+	dataStoreCmd         = servicesCmd.Command("datastore", "Data Store Service")
+	DataStoreChannelsCmd = dataStoreCmd.Command("channels", "Get data")
 )
 var dataStoreOption = service.DataStoreOptions{
-	Size:    dataStoreGetCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
-	Unit:    dataStoreGetCmd.Flag("unit", "Unit channel/message").String(),
-	Token:   dataStoreGetCmd.Flag("token", "Service Token").String(),
-	Cursor:  dataStoreGetCmd.Flag("cursor", "Cursor").String(),
-	After:   dataStoreGetCmd.Flag("after", "Datetime range from").String(),
-	Befor:   dataStoreGetCmd.Flag("befor", "Datetime range to").String(),
-	Channel: dataStoreGetCmd.Flag("channel", "Channel").String(),
+	Size:      DataStoreChannelsCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
+	Unit:      DataStoreChannelsCmd.Flag("unit", "Unit channel/message").String(),
+	Order:     DataStoreChannelsCmd.Flag("order", "Order asc/desc").String(),
+	Token:     DataStoreChannelsCmd.Flag("token", "Service Token").String(),
+	Cursor:    DataStoreChannelsCmd.Flag("cursor", "Cursor").String(),
+	After:     DataStoreChannelsCmd.Flag("after", "Datetime range from").String(),
+	Before:    DataStoreChannelsCmd.Flag("before", "Datetime range to").String(),
+	Channel:   DataStoreChannelsCmd.Flag("channel", "Channel").String(),
+	Project:   DataStoreChannelsCmd.Flag("project", "Project ID").String(),
+	RawOutput: DataStoreChannelsCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
 }
 
 /////// END Flags
@@ -83,8 +87,14 @@ func init() {
 
 func main() {
 
+	app.Version("0.0.1")
 	app.UsageTemplate(kingpin.CompactUsageTemplate)
+	app.VersionFlag.Action(func(c *kingpin.ParseContext) error {
+		fmt.Println("PreAction")
+		fmt.Println(*c)
 
+		return nil
+	})
 	parseResult := kingpin.MustParse(app.Parse(os.Args[1:]))
 	lib.OverrideSettings.APIToken = *appToken
 	lib.OverrideSettings.APISecret = *appSecret
@@ -118,7 +128,7 @@ func main() {
 	case addServiceCmd.FullCommand():
 		commands.AddServiceCommand(*addServiceType, *addServiceProject, *addServiceOptions)
 
-	case dataStoreGetCmd.FullCommand(): // Service Data Store Command
-		service.DataStoreGetCommand(dataStoreOption)
+	case DataStoreChannelsCmd.FullCommand(): // Service Data Store Command
+		service.DataStoreChannelsCommand(dataStoreOption)
 	}
 }
