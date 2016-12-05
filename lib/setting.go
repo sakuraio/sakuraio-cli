@@ -26,7 +26,7 @@ func GetSetting() Settings {
 	}
 
 	if setting.BaseURL == "" {
-		setting.BaseURL = "https://api-dev.sakura.io/"
+		setting.BaseURL = "https://api.sakura.io/"
 	}
 
 	if OverrideSettings.APIToken != "" {

@@ -63,9 +63,11 @@ var (
 /////// data store
 var (
 	dataStoreCmd         = servicesCmd.Command("datastore", "Data Store Service")
-	DataStoreChannelsCmd = dataStoreCmd.Command("channels", "Get data")
+	DataStoreChannelsCmd = dataStoreCmd.Command("channels", "Get channel data")
+	DataStoreMessagesCmd = dataStoreCmd.Command("messages", "Get message data")
 )
-var dataStoreOption = service.DataStoreOptions{
+var dataStoreChannelOption = service.DataStoreChannelOptions{
+	Module:    DataStoreChannelsCmd.Flag("module", "Module ID").Short('m').Default("").String(),
 	Size:      DataStoreChannelsCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
 	Unit:      DataStoreChannelsCmd.Flag("unit", "Unit channel/message").String(),
 	Order:     DataStoreChannelsCmd.Flag("order", "Order asc/desc").String(),
@@ -76,6 +78,14 @@ var dataStoreOption = service.DataStoreOptions{
 	Channel:   DataStoreChannelsCmd.Flag("channel", "Channel").String(),
 	Project:   DataStoreChannelsCmd.Flag("project", "Project ID").String(),
 	RawOutput: DataStoreChannelsCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
+}
+var dataStoreMessageOption = service.DataStoreMessagesOption{
+	Module: DataStoreMessagesCmd.Flag("module", "Module ID").Short('m').Default("").String(),
+	Size:   DataStoreMessagesCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
+	Order:  DataStoreMessagesCmd.Flag("order", "Order asc/desc").String(),
+	Cursor: DataStoreMessagesCmd.Flag("cursor", "Cursor").String(),
+	After:  DataStoreMessagesCmd.Flag("after", "Datetime range from").String(),
+	Befor:  DataStoreMessagesCmd.Flag("before", "Datetime range to").String(),
 }
 
 /////// END Flags
@@ -129,6 +139,8 @@ func main() {
 		commands.AddServiceCommand(*addServiceType, *addServiceProject, *addServiceOptions)
 
 	case DataStoreChannelsCmd.FullCommand(): // Service Data Store Command
-		service.DataStoreChannelsCommand(dataStoreOption)
+		service.DataStoreChannelsCommand(dataStoreChannelOption)
+	case DataStoreMessagesCmd.FullCommand(): // Service Data Store Command
+		service.DataStoreMessagesCmd(dataStoreMessageOption)
 	}
 }

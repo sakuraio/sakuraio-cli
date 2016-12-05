@@ -11,7 +11,8 @@ import (
 	"../../lib"
 )
 
-type DataStoreOptions struct {
+type DataStoreChannelOptions struct {
+	Module    *string
 	Size      *string
 	Unit      *string
 	Token     *string
@@ -23,6 +24,14 @@ type DataStoreOptions struct {
 	Project   *string
 	RawOutput *bool
 }
+type DataStoreMessagesOption struct {
+	Module *string
+	Size   *string
+	Order  *string
+	Cursor *string
+	After  *string
+	Befor  *string
+}
 
 func paramSet(values url.Values, key string, value string) {
 	if value != "" {
@@ -30,13 +39,16 @@ func paramSet(values url.Values, key string, value string) {
 	}
 }
 
-func DataStoreChannelsCommand(options DataStoreOptions) {
+func DataStoreChannelsCommand(options DataStoreChannelOptions) {
 	token := GetToken(*options.Token, *options.Project, "datastore")
 
 	param := url.Values{}
 	param.Add("token", token)
 
-	param.Add("size", *options.Size)
+	if *options.Module != "" {
+		param.Add("size", *options.Size)
+	}
+	paramSet(param, "module", *options.Module)
 	paramSet(param, "unit", *options.Unit)
 	paramSet(param, "order", *options.Order)
 	paramSet(param, "cursor", *options.Cursor)
@@ -96,6 +108,10 @@ func DataStoreChannelsCommand(options DataStoreOptions) {
 		w.Flush()
 	}
 
+}
+
+func DataStoreMessagesCmd(options DataStoreMessagesOption) {
+	// todo impliments
 }
 
 func parseToString(value interface{}) string {
