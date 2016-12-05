@@ -91,6 +91,16 @@ var dataStoreMessageOption = service.DataStoreMessagesOption{
 	Token:     DataStoreMessagesCmd.Flag("token", "Service Token").String(),
 }
 
+var (
+	websocketCmd       = servicesCmd.Command("websocket", "Websocket Service").Alias("ws")
+	websocketListenCmd = websocketCmd.Command("listen", "Listen to Websocket")
+)
+var websocketListneOption = service.WebsocketListenOptions{
+	Project: websocketListenCmd.Flag("project", "Project ID").String(),
+	// RawOutput: websocketListenCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
+	Token: websocketListenCmd.Flag("token", "Service Token").String(),
+}
+
 /////// END Flags
 
 func init() {
@@ -143,7 +153,10 @@ func main() {
 
 	case DataStoreChannelsCmd.FullCommand(): // Service Data Store Command
 		service.DataStoreChannelsCommand(dataStoreChannelOption)
-	case DataStoreMessagesCmd.FullCommand(): // Service Data Store Command
+	case DataStoreMessagesCmd.FullCommand():
 		service.DataStoreMessagesCmd(dataStoreMessageOption)
+
+	case websocketListenCmd.FullCommand(): // Service Websocket Command
+		service.WebsocketListenCommand(websocketListneOption)
 	}
 }
