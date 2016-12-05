@@ -80,12 +80,15 @@ var dataStoreChannelOption = service.DataStoreChannelOptions{
 	RawOutput: DataStoreChannelsCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
 }
 var dataStoreMessageOption = service.DataStoreMessagesOption{
-	Module: DataStoreMessagesCmd.Flag("module", "Module ID").Short('m').Default("").String(),
-	Size:   DataStoreMessagesCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
-	Order:  DataStoreMessagesCmd.Flag("order", "Order asc/desc").String(),
-	Cursor: DataStoreMessagesCmd.Flag("cursor", "Cursor").String(),
-	After:  DataStoreMessagesCmd.Flag("after", "Datetime range from").String(),
-	Befor:  DataStoreMessagesCmd.Flag("before", "Datetime range to").String(),
+	Module:    DataStoreMessagesCmd.Flag("module", "Module ID").Short('m').Default("").String(),
+	Size:      DataStoreMessagesCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
+	Order:     DataStoreMessagesCmd.Flag("order", "Order asc/desc").String(),
+	Cursor:    DataStoreMessagesCmd.Flag("cursor", "Cursor").String(),
+	After:     DataStoreMessagesCmd.Flag("after", "Datetime range from").String(),
+	Before:    DataStoreMessagesCmd.Flag("before", "Datetime range to").String(),
+	Project:   DataStoreMessagesCmd.Flag("project", "Project ID").String(),
+	RawOutput: DataStoreMessagesCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
+	Token:     DataStoreMessagesCmd.Flag("token", "Service Token").String(),
 }
 
 /////// END Flags

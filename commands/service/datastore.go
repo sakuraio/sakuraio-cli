@@ -25,12 +25,15 @@ type DataStoreChannelOptions struct {
 	RawOutput *bool
 }
 type DataStoreMessagesOption struct {
-	Module *string
-	Size   *string
-	Order  *string
-	Cursor *string
-	After  *string
-	Befor  *string
+	Module    *string
+	Size      *string
+	Order     *string
+	Cursor    *string
+	After     *string
+	Before    *string
+	Project   *string
+	RawOutput *bool
+	Token     *string
 }
 
 func paramSet(values url.Values, key string, value string) {
@@ -46,9 +49,9 @@ func DataStoreChannelsCommand(options DataStoreChannelOptions) {
 	param.Add("token", token)
 
 	if *options.Module != "" {
-		param.Add("size", *options.Size)
+		param.Add("module", *options.Module)
 	}
-	paramSet(param, "module", *options.Module)
+	paramSet(param, "size", *options.Size)
 	paramSet(param, "unit", *options.Unit)
 	paramSet(param, "order", *options.Order)
 	paramSet(param, "cursor", *options.Cursor)
@@ -111,7 +114,45 @@ func DataStoreChannelsCommand(options DataStoreChannelOptions) {
 }
 
 func DataStoreMessagesCmd(options DataStoreMessagesOption) {
-	// todo impliments
+	token := GetToken(*options.Token, *options.Project, "datastore")
+
+	param := url.Values{}
+	param.Add("token", token)
+
+	if *options.Module != "" {
+		param.Add("module", *options.Module)
+	}
+	paramSet(param, "size", *options.Size)
+	paramSet(param, "order", *options.Order)
+	paramSet(param, "cursor", *options.Cursor)
+	paramSet(param, "after", *options.After)
+	paramSet(param, "before", *options.Before)
+
+	body, err := lib.HTTPGet("datastore/v1/messages?" + param.Encode())
+	checkError("HTTP ERROR", err, body)
+	if *options.RawOutput {
+		fmt.Println(body)
+		return
+	}
+
+	var messages MessagesResponse
+
+	err = json.Unmarshal([]byte(body), &messages)
+	checkError("JSON format error", err, body)
+
+	meta := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
+	fmt.Fprintln(meta, "Count\tMatch\tCursor")
+	fmt.Fprintf(meta, "%d\t%d\t%s\n---\n", messages.Meta.Count, messages.Meta.match, messages.Meta.Cursor)
+	meta.Flush()
+
+	w := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
+	fmt.Fprintln(w, "Module\tDatetime\tType\tPayload")
+	for _, v := range messages.Results {
+		payload, _ := json.Marshal(v.Payload)
+		fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", v.Module, v.Datetime, v.Type, payload)
+	}
+	w.Flush()
+
 }
 
 func parseToString(value interface{}) string {
@@ -169,6 +210,17 @@ type ChannelsMessageResultPayload struct {
 	Datetime string
 	Type     string
 	Value    interface{}
+}
+
+type MessagesResponse struct {
+	Meta    Meta
+	Results []MessagesResult
+}
+type MessagesResult struct {
+	Module   string
+	Datetime string
+	Type     string
+	Payload  interface{}
 }
 
 type Meta struct {

@@ -57,6 +57,7 @@ Commands:
     add <type> <project id> [<option>...]
     datastore
       channels [<flags>]
+      messages [<flags>]
 ```
 
 ### --help-long
@@ -130,8 +131,9 @@ Commands:
 
 
   service datastore channels [<flags>]
-    Get data
+    Get channel data
 
+    -m, --module=""        Module ID
     -s, --size="100"       Fetch Size
         --unit=UNIT        Unit channel/message
         --order=ORDER      Order asc/desc
@@ -143,4 +145,16 @@ Commands:
         --project=PROJECT  Project ID
         --raw              Raw JSON output
 
+  service datastore messages [<flags>]
+    Get message data
+
+    -m, --module=""        Module ID
+    -s, --size="100"       Fetch Size
+        --order=ORDER      Order asc/desc
+        --cursor=CURSOR    Cursor
+        --after=AFTER      Datetime range from
+        --before=BEFORE    Datetime range to
+        --project=PROJECT  Project ID
+        --raw              Raw JSON output
+        --token=TOKEN      Service Token
 ```
