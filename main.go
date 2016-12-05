@@ -69,7 +69,7 @@ var (
 var dataStoreChannelOption = service.DataStoreChannelOptions{
 	Module:    DataStoreChannelsCmd.Flag("module", "Module ID").Short('m').Default("").String(),
 	Size:      DataStoreChannelsCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
-	Unit:      DataStoreChannelsCmd.Flag("unit", "Unit channel/message").String(),
+	Unit:      DataStoreChannelsCmd.Flag("unit", "Unit channel/message").Hidden().String(),
 	Order:     DataStoreChannelsCmd.Flag("order", "Order asc/desc").String(),
 	Token:     DataStoreChannelsCmd.Flag("token", "Service Token").String(),
 	Cursor:    DataStoreChannelsCmd.Flag("cursor", "Cursor").String(),

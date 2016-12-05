@@ -58,6 +58,8 @@ Commands:
     datastore
       channels [<flags>]
       messages [<flags>]
+    websocket
+      listen [<flags>]
 ```
 
 ### --help-long
@@ -135,7 +137,6 @@ Commands:
 
     -m, --module=""        Module ID
     -s, --size="100"       Fetch Size
-        --unit=UNIT        Unit channel/message
         --order=ORDER      Order asc/desc
         --token=TOKEN      Service Token
         --cursor=CURSOR    Cursor
@@ -157,4 +158,10 @@ Commands:
         --project=PROJECT  Project ID
         --raw              Raw JSON output
         --token=TOKEN      Service Token
+
+  service websocket listen [<flags>]
+    Listen to Websocket
+
+    --project=PROJECT  Project ID
+    --token=TOKEN      Service Token
 ```
