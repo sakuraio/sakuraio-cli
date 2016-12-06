@@ -11,7 +11,6 @@ func AuthConfigCommand(token string, secret string) {
 	if len(token) == 0 && len(secret) == 0 {
 		setting := lib.GetSetting()
 		fmt.Printf("[Current API Key] token: %s  secret: ***************\n", setting.APIToken)
-		fmt.Println(setting)
 		return
 	}
 	if len(secret) == 0 {
