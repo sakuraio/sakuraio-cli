@@ -72,5 +72,5 @@ type Settings struct {
 var OverrideSettings Settings = Settings{
 	APIToken:  "",
 	APISecret: "",
-	BaseURL:   "https://api-dev.sakura.io/",
+	BaseURL:   "",
 }

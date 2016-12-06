@@ -5,9 +5,7 @@
 
 ## Install
 
-todo
-
-### Linux
+### Linux/BSD
 
 ```bash
 wget ~~~~~~ -O /usr/local/bin/sakuraio
@@ -18,6 +16,11 @@ chmod +x /usr/local/bin/sakuraio
 
 リリースページからダウンロード後、exeファイルをパスの通った位置に移動させてください
 
+### Build
+
+```
+$ ./build.sh
+```
 
 ## Uninstall
 
