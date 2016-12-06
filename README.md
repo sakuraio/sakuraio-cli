@@ -7,11 +7,11 @@
 
 ### Linux/BSD
 
-~~~~~~ の部分は[リリースページ](https://github.com/sakura-internet/sakuraio-cli/releases/)
+(arch) の部分は[リリースページ](https://github.com/sakura-internet/sakuraio-cli/releases/)
 から適切なOS/アーキテクチャを選択し、読み替えてください。
 
 ``` bash
-sudo wget ~~~~~~ -O /usr/local/bin/sakuraio
+sudo wget (arch) -O /usr/local/bin/sakuraio
 sudo chmod +x /usr/local/bin/sakuraio
 ```
 
