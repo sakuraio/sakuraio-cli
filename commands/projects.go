@@ -6,7 +6,7 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"../lib"
+	"github.com/kamijin-fanta/sakuraio-cli/lib"
 )
 
 func ListProjectsCommand() {

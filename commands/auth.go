@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"../lib"
+	"github.com/kamijin-fanta/sakuraio-cli/lib"
 )
 
 func AuthConfigCommand(token string, secret string) {

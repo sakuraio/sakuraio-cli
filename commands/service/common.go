@@ -1,7 +1,7 @@
 package service
 
 import "github.com/Sirupsen/logrus"
-import "../../commands"
+import "github.com/kamijin-fanta/sakuraio-cli/commands"
 
 func checkError(message string, err error, info string) {
 	if err != nil {
