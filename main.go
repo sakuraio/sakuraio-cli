@@ -8,9 +8,9 @@ import (
 	colorable "github.com/mattn/go-colorable"
 	"gopkg.in/alecthomas/kingpin.v2"
 
-	"./commands"
-	"./commands/service"
-	"./lib"
+	"github.com/kamijin-fanta/sakuraio-cli/commands"
+	"github.com/kamijin-fanta/sakuraio-cli/commands/service"
+	"github.com/kamijin-fanta/sakuraio-cli/lib"
 )
 
 var (
