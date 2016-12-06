@@ -36,6 +36,12 @@ rm -r ~/.sakuraio
 ### サンプルコマンド
 
 ```
+$ sakuraio auth [key] [secret]  # APIキーで認証
+$ sakuraio project ls  # プロジェクトの一覧を取得
+$ sakuraio service add datastore 7 name=test-service  # プロジェクトにDataStoreサービスを追加
+$ sakuraio service datastore channels --project=7  # プロジェクト7のチャンネルデータを閲覧
+$ sakuraio service add websocket 7 name=test-service  # Websocketサービスを追加 
+$ sakuraio service websocket listen --project=7  # リアルタイムにデータを受信
 ```
 
 ### --help
