@@ -7,7 +7,7 @@
 
 ### Linux/BSD
 
-~~~~~~ の部分は[リリースページ](https://github.com/kamijin-fanta/sakuraio-cli/releases/)
+~~~~~~ の部分は[リリースページ](https://github.com/sakura-internet/sakuraio-cli/releases/)
 から適切なOS/アーキテクチャを選択し、読み替えてください。
 
 ``` bash
@@ -17,7 +17,7 @@ sudo chmod +x /usr/local/bin/sakuraio
 
 ### Windows
 
-[リリースページ](https://github.com/kamijin-fanta/sakuraio-cli/releases/)
+[リリースページ](https://github.com/sakura-internet/sakuraio-cli/releases/)
 からダウンロード後、exeファイルをパスの通った位置に移動させてください
 
 ### Go
@@ -26,7 +26,7 @@ goの開発環境が有る方向けです。
 アップデートをする際も、同じ手順で行えます。
 
 ```bash
-go get -u github.com/kamijin-fanta/sakuraio-cli
+go get -u github.com/sakura-internet/sakuraio-cli
 sakuraio-cli --help # `export PATH=$PATH:$GOPATH/bin` is required.
 $GOPATH/bin/sakuraio-cli --help
 ```

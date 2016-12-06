@@ -9,7 +9,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 
-	"github.com/kamijin-fanta/sakuraio-cli/lib"
+	"github.com/sakura-internet/sakuraio-cli/lib"
 )
 
 func checkError(message string, err error, info string) {
