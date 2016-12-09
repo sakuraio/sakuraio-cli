@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path"
 
 	"github.com/Sirupsen/logrus"
 	colorable "github.com/mattn/go-colorable"
@@ -14,7 +15,9 @@ import (
 )
 
 var (
-	app = kingpin.New("sakuraio-cli", "sakuraio client command")
+	_, commandName = path.Split(os.Args[0])
+
+	app = kingpin.New(commandName , "sakuraio client command")
 
 	appToken  = app.Flag("api-token", "API Token").String()
 	appSecret = app.Flag("api-secret", "API Secret").String()
