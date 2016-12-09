@@ -110,7 +110,7 @@ func init() {
 
 func main() {
 
-	app.Version("0.0.1")
+	app.Version(commands.Version)
 	app.UsageTemplate(kingpin.CompactUsageTemplate)
 	app.VersionFlag.Action(func(c *kingpin.ParseContext) error {
 		fmt.Println("PreAction")
