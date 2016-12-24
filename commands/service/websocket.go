@@ -21,8 +21,8 @@ type WebsocketListenOptions struct {
 func WebsocketListenCommand(options WebsocketListenOptions) {
 	token := GetToken(*options.Token, *options.Project, "websocket")
 
-	url := "wss://api-dev.sakura.io/ws/v1/" + token
-	origin := "https://api-dev.sakura.io/ws/v1/"
+	url := "wss://api.sakura.io/ws/v1/" + token
+	origin := "https://api.sakura.io/ws/v1/"
 	ws, err := websocket.Dial(url, "", origin)
 	if err != nil {
 		logrus.Fatal(err)
