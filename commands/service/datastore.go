@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"text/tabwriter"
 
-	"github.com/sakura-internet/sakuraio-cli/lib"
+	"github.com/sakuraio/sakuraio-cli/lib"
 )
 
 type DataStoreChannelOptions struct {

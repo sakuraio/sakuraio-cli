@@ -10,7 +10,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 
-	"github.com/sakura-internet/sakuraio-cli/lib"
+	"github.com/sakuraio/sakuraio-cli/lib"
 )
 
 func fetchServices() []Service {

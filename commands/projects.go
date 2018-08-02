@@ -6,7 +6,7 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"github.com/sakura-internet/sakuraio-cli/lib"
+	"github.com/sakuraio/sakuraio-cli/lib"
 )
 
 func ListProjectsCommand() {
