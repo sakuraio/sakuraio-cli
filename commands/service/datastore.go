@@ -113,7 +113,6 @@ func DataStoreChannelsCommand(options DataStoreChannelOptions) {
 
 		isLastLoop := channels.Meta.Match == 0
 		if *options.NoRecursive || isLastLoop || reamingCount <= 0 {
-			println("exit", isLastLoop, reamingCount)
 			break
 		}
 	}
@@ -189,7 +188,6 @@ func DataStoreMessagesCmd(options DataStoreMessagesOption) {
 		}
 		isLastLoop := messages.Meta.Match == 0
 		if *options.NoRecursive || isLastLoop || reamingCount <= 0 {
-			println("exit", isLastLoop, reamingCount)
 			break
 		}
 	}
