@@ -72,7 +72,6 @@ var (
 var dataStoreChannelOption = service.DataStoreChannelOptions{
 	Module:    DataStoreChannelsCmd.Flag("module", "Module ID").Short('m').Default("").String(),
 	Size:      DataStoreChannelsCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
-	Unit:      DataStoreChannelsCmd.Flag("unit", "Unit channel/message").Hidden().String(),
 	Order:     DataStoreChannelsCmd.Flag("order", "Order asc/desc").String(),
 	Token:     DataStoreChannelsCmd.Flag("token", "Service Token").String(),
 	Cursor:    DataStoreChannelsCmd.Flag("cursor", "Cursor").String(),
@@ -81,6 +80,8 @@ var dataStoreChannelOption = service.DataStoreChannelOptions{
 	Channel:   DataStoreChannelsCmd.Flag("channel", "Channel").String(),
 	Project:   DataStoreChannelsCmd.Flag("project", "Project ID").String(),
 	RawOutput: DataStoreChannelsCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
+	Recursive: DataStoreChannelsCmd.Flag("recursive", "Collect recursive").Short('r').Default("false").Bool(),
+	MaxReq:    DataStoreChannelsCmd.Flag("max-req", "Max request count in --recursive").Default("100").Int(),
 }
 var dataStoreMessageOption = service.DataStoreMessagesOption{
 	Module:    DataStoreMessagesCmd.Flag("module", "Module ID").Short('m').Default("").String(),
@@ -92,6 +93,8 @@ var dataStoreMessageOption = service.DataStoreMessagesOption{
 	Project:   DataStoreMessagesCmd.Flag("project", "Project ID").String(),
 	RawOutput: DataStoreMessagesCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
 	Token:     DataStoreMessagesCmd.Flag("token", "Service Token").String(),
+	Recursive: DataStoreMessagesCmd.Flag("recursive", "Collect recursive").Short('r').Default("false").Bool(),
+	MaxReq:    DataStoreMessagesCmd.Flag("max-req", "Max request count in --recursive").Default("100").Int(),
 }
 
 var (
