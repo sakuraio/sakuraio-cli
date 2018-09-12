@@ -6,7 +6,7 @@ import (
 	"path"
 
 	"github.com/Sirupsen/logrus"
-	colorable "github.com/mattn/go-colorable"
+	"github.com/mattn/go-colorable"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/sakuraio/sakuraio-cli/commands"
@@ -70,31 +70,33 @@ var (
 	DataStoreMessagesCmd = dataStoreCmd.Command("messages", "Get message data")
 )
 var dataStoreChannelOption = service.DataStoreChannelOptions{
-	Module:    DataStoreChannelsCmd.Flag("module", "Module ID").Short('m').Default("").String(),
-	Size:      DataStoreChannelsCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
-	Order:     DataStoreChannelsCmd.Flag("order", "Order asc/desc").String(),
-	Token:     DataStoreChannelsCmd.Flag("token", "Service Token").String(),
-	Cursor:    DataStoreChannelsCmd.Flag("cursor", "Cursor").String(),
-	After:     DataStoreChannelsCmd.Flag("after", "Datetime range from").String(),
-	Before:    DataStoreChannelsCmd.Flag("before", "Datetime range to").String(),
-	Channel:   DataStoreChannelsCmd.Flag("channel", "Channel").String(),
-	Project:   DataStoreChannelsCmd.Flag("project", "Project ID").String(),
-	RawOutput: DataStoreChannelsCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
-	Recursive: DataStoreChannelsCmd.Flag("recursive", "Collect recursive").Short('r').Default("false").Bool(),
-	MaxReq:    DataStoreChannelsCmd.Flag("max-req", "Max request count in --recursive").Default("100").Int(),
+	Module:      DataStoreChannelsCmd.Flag("module", "Module ID").Short('m').Default("").String(),
+	Size:        DataStoreChannelsCmd.Flag("size", "Total fetch count. When 0 is specified fetch unlimited").Short('s').Default("100").Int(),
+	Order:       DataStoreChannelsCmd.Flag("order", "Order asc/desc").String(),
+	Token:       DataStoreChannelsCmd.Flag("token", "Service Token").String(),
+	Cursor:      DataStoreChannelsCmd.Flag("cursor", "Cursor").String(),
+	After:       DataStoreChannelsCmd.Flag("after", "Datetime range from").String(),
+	Before:      DataStoreChannelsCmd.Flag("before", "Datetime range to").String(),
+	Channel:     DataStoreChannelsCmd.Flag("channel", "Channel").String(),
+	Project:     DataStoreChannelsCmd.Flag("project", "Project ID").String(),
+	RawOutput:   DataStoreChannelsCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
+	NoRecursive: DataStoreChannelsCmd.Flag("no-rec", "Un use recursive fetch").Default("false").Bool(),
+	MaxReq:      DataStoreChannelsCmd.Flag("max-req", "Max recursive request count").Default("100").Int(),
+	BatchSize:   DataStoreChannelsCmd.Flag("batch-size", "Fetch size per request").Default("100").Int(),
 }
 var dataStoreMessageOption = service.DataStoreMessagesOption{
-	Module:    DataStoreMessagesCmd.Flag("module", "Module ID").Short('m').Default("").String(),
-	Size:      DataStoreMessagesCmd.Flag("size", "Fetch Size").Short('s').Default("100").String(),
-	Order:     DataStoreMessagesCmd.Flag("order", "Order asc/desc").String(),
-	Cursor:    DataStoreMessagesCmd.Flag("cursor", "Cursor").String(),
-	After:     DataStoreMessagesCmd.Flag("after", "Datetime range from").String(),
-	Before:    DataStoreMessagesCmd.Flag("before", "Datetime range to").String(),
-	Project:   DataStoreMessagesCmd.Flag("project", "Project ID").String(),
-	RawOutput: DataStoreMessagesCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
-	Token:     DataStoreMessagesCmd.Flag("token", "Service Token").String(),
-	Recursive: DataStoreMessagesCmd.Flag("recursive", "Collect recursive").Short('r').Default("false").Bool(),
-	MaxReq:    DataStoreMessagesCmd.Flag("max-req", "Max request count in --recursive").Default("100").Int(),
+	Module:      DataStoreMessagesCmd.Flag("module", "Module ID").Short('m').Default("").String(),
+	Size:        DataStoreMessagesCmd.Flag("size", "Total fetch count. When 0 is specified fetch unlimited").Short('s').Default("100").Int(),
+	Order:       DataStoreMessagesCmd.Flag("order", "Order asc/desc").String(),
+	Cursor:      DataStoreMessagesCmd.Flag("cursor", "Cursor").String(),
+	After:       DataStoreMessagesCmd.Flag("after", "Datetime range from").String(),
+	Before:      DataStoreMessagesCmd.Flag("before", "Datetime range to").String(),
+	Project:     DataStoreMessagesCmd.Flag("project", "Project ID").String(),
+	RawOutput:   DataStoreMessagesCmd.Flag("raw", "Raw JSON output").Default("false").Bool(),
+	Token:       DataStoreMessagesCmd.Flag("token", "Service Token").String(),
+	NoRecursive: DataStoreMessagesCmd.Flag("no-rec", "Un use recursive fetch").Default("false").Bool(),
+	MaxReq:      DataStoreMessagesCmd.Flag("max-req", "Max recursive request count").Default("100").Int(),
+	BatchSize:   DataStoreMessagesCmd.Flag("batch-size", "Fetch size per request").Default("100").Int(),
 }
 
 var (
