@@ -17,7 +17,7 @@ import (
 var (
 	_, commandName = path.Split(os.Args[0])
 
-	app = kingpin.New(commandName , "sakuraio client command")
+	app = kingpin.New(commandName, "sakuraio client command")
 
 	appToken  = app.Flag("api-token", "API Token").String()
 	appSecret = app.Flag("api-secret", "API Secret").String()

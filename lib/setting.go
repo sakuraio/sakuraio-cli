@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/mitchellh/go-homedir"
 	"gopkg.in/yaml.v2"
-	"github.com/Sirupsen/logrus"
 )
 
 const DEFAULT_CONFIG_PATH = "./.sakuraio/config.yml"

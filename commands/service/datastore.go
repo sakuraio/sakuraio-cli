@@ -63,7 +63,7 @@ func DataStoreChannelsCommand(options DataStoreChannelOptions) {
 	tabWriter := tabwriter.NewWriter(os.Stdout, 3, 0, 4, ' ', 0)
 	lastCursor := ""
 
-	for i:=0; i<*options.MaxReq; i++ {
+	for i := 0; i < *options.MaxReq; i++ {
 		if len(lastCursor) != 0 {
 			param.Set("cursor", lastCursor)
 		}
