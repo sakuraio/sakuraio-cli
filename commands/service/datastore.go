@@ -206,7 +206,7 @@ type ChannelsChannelResponse struct {
 }
 
 type ChannelsChannelResult struct {
-	Channel  int
+	Channel  int     `json:"channel"`
 	Datetime string  `json:"datetime"`
 	Module   string  `json:"module"`
 	Type     string  `json:"type"`
