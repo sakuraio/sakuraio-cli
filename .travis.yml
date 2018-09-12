@@ -1,0 +1,20 @@
+language: go
+go:
+  - '1.11'
+env:
+  - GO111MODULE=on
+install:
+  - go get github.com/mitchellh/gox
+script:
+  - go build
+  - ./build.sh
+deploy:
+  provider: releases
+  api_key:
+    # [hint] travis encrypt --com -r sakuraio/sakuraio-cli "********"
+    secure: "iKaMSPNdebSDA+94wBQaU6n/MzuBSkUJfWJ+oNFis70l5/ALMasYay1j8rxhOybwdetIs78gkCLYUJDWj7GUZ87KaNxywlFJio2EiZ/IOZoEcnwR8aVbkooyUExi+Ip+pIqiIPvJYUTNe1Fe+BW3Rgtu/an6hcu7xXI6ENJq9/TpUe7UUaWyyttwl8LvHioZofG2pXcZBb5DmVy8UHfSirWLKXXjMAiHl4VCuIpqeQDeqb5LzY7up8D8ptfhTksqqnbCPVhAJf6hvWWLQkBzSjQsuNtqROz+NrIDW7Q4YvafWaIgrKeYJuYG1izHEk+i5QpOEEjiQDQJpLigxKD+YW4g1lp5hsNpjuAv49H/Zp1nWpyxAHQvN0M6GyGByaPPYSQtgIafZcSKEhCQn6vbC2xVpbWOn4zbKtupcGGVag1y2Q6Ii2omT17PIGLjJ3dPykLMox7+fMB6Tn67rzBGeED/ok0etih2BYpWV+0nd6JtKjhmxZ3a1r5Lo3Fk6keO7ODMPVSCj56BrONyHZ/bWeHvN9nA+eqHLpaWNVShpjKiN/Q88a9NY+sRKFffLQDJOQi7uyJiXEvBY7G1Hb2mdMYOmvA+B5hg6DIENMNazWgGzckh5AgBTHAUuZEjEWpMBkNhAfhUatwYCca2xyLi7QcWCfxmasrsRH6DwjRa1Kk="
+  file_glob: true
+  file: "bin/*"
+  skip_cleanup: true
+  on:
+    tags: true
