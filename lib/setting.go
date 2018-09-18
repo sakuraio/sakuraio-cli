@@ -1,11 +1,11 @@
 package lib
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/mitchellh/go-homedir"
 	"gopkg.in/yaml.v2"
 )
@@ -18,11 +18,9 @@ func getDefaultConfigPath() string {
 }
 
 func GetSetting() Settings {
-	setting := Settings{}
 	setting, err := GetUserSetting()
 	if err != nil {
-		fmt.Println(setting)
-		return setting
+		logrus.WithError(err).Warn("Cannot read configure file. Use default config.")
 	}
 
 	if setting.BaseURL == "" {
